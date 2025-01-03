@@ -4,19 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magisches Gummibärchen-Orakel</title>
-    <style>
-        body {
-            font-family: "Comic Sans MS", cursive, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffd5e5;
-            text-align: center;
-            background-image: radial-gradient(circle, #fff 10%, transparent 10%),
-                            radial-gradient(circle, #fff 10%, transparent 10%);
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
-        }
+
+body {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    /* Neuer Galaxy-Gradient Hintergrund */
+    background: linear-gradient(45deg, 
+        #000000, 
+        #1a0f3d,
+        #24105c,
+        #1a0f3d,
+        #000000);
+    text-align: center;
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Sterne-Effekt als Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    animation: twinkle 15s ease infinite;
+    pointer-events: none;
+}
+
+/* Animation für den Farbverlauf */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animation für die Sterne */
+@keyframes twinkle {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.9; }
+}
+    
 
         .container {
             background-color: white;
