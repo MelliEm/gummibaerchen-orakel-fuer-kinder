@@ -74,7 +74,28 @@
             animation: float 3s ease-in-out infinite;
             margin-left: 10px;
         }
+neu
+        .title-star {
+            animation: floatAndSpin 3s ease-in-out infinite;
+        }
 
+        .title-rainbow {
+            animation: floatAndSpin 3s ease-in-out infinite;
+        }
+
+        @keyframes floatAndSpin {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        alt
        <!-- auskommentiert
       .title-star {
             animation: float 3s ease-in-out infinite, spin 4s linear infinite;
