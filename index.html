@@ -46,26 +46,52 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 15px;
             margin: 20px 0;
-            padding: 20px;
         }
 
         .gummy {
-            width: 100px;
-            height: 150px;
+            width: 80px;
+            height: 120px;
             cursor: pointer;
             transition: transform 0.3s;
             animation: bounce 2s infinite;
         }
 
-        .gummy:hover {
-            transform: scale(1.1);
+        .gummy-wrapper {
+            display: inline-block;
+            margin: 10px;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
+        }
+
+        .gummy:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .deutung {
+            margin-top: 20px;
+            padding: 20px;
+            border: 3px solid #ffe4e1;
+            border-radius: 15px;
+            display: none;
+            background-color: #fff8e7;
+            font-size: 1.2em;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .position-text {
+            margin-top: 15px;
+            font-style: italic;
+            color: #ff69b4;
         }
 
         button {
@@ -88,22 +114,6 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
-        .deutung {
-            margin-top: 20px;
-            padding: 20px;
-            border: 3px solid #ffe4e1;
-            border-radius: 15px;
-            display: none;
-            background-color: #fff8e7;
-            font-size: 1.2em;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .magic-sparkle {
             position: absolute;
             pointer-events: none;
@@ -119,7 +129,7 @@
 <body>
     <div class="container">
         <h1>✨ Magisches Gummibärchen-Orakel 🌈</h1>
-        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen!</p>
+        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen! 🎮</p>
         <p class="instruction">🌟 Klicke zuerst auf den Zauberstab, um neue Gummibärchen erscheinen zu lassen!<br>
             Dann wähle ein Gummibärchen aus und erfahre deine magische Botschaft! 🪄</p>
         <button onclick="zieheGummibärchen()">🪄 Neue Zauber-Gummibärchen</button>
@@ -128,68 +138,69 @@
     </div>
 
     <script>
-         const deutungen = {
-    'rot': [
-        'Jemand hat dich sehr lieb - vielleicht gibt es bald eine große Umarmung! 🤗',
-        'Du wirst etwas finden, das dein Herz ganz fröhlich macht! ❤️',
-        'Du bekommst ganz viel Energie, um etwas Tolles zu schaffen! 💪',
-        'Ein neues Abenteuer wartet auf dich und wird richtig spannend! 🎢',
-        'Etwas, das du gern machst, wird dir ganz viel Freude bringen! 🌟',
-        'Vielleicht lernst du bald einen neuen Freund kennen! 👋',
-        'Wenn du mutig bist, wirst du etwas ganz Besonderes erleben! 🦁',
-        'Bald bekommst du eine kleine Überraschung, die dir ein Lächeln zaubert! 🎁',
-        'Du wirst heute viel lachen! 😊',
-        'Eine tolle Überraschung wartet auf dich! 🎈'
-    ],
-    'gelb': [
-        'Die Sonne scheint für dich - dein Tag wird richtig schön! ☀️',
-        'Du wirst etwas ganz Tolles basteln oder malen, das alle begeistert! 🎨',
-        'Du wirst einen neuen Freund finden, mit dem du viel Spaß haben kannst! 🤝',
-        'Bald hörst du eine lustige oder schöne Nachricht, die dich glücklich macht! 📫',
-        'Alle werden merken, wie fröhlich du bist und dich gern haben! 😊',
-        'Vielleicht findest du bald etwas, das dir einen Wunsch erfüllt! ⭐',
-        'Dein Lachen wird alle um dich herum fröhlich machen! 😄',
-        'Etwas, das du ausprobierst, wird dir richtig gut gelingen! 🌈',
-        'Ein schöner Tag mit deiner Familie wartet! 👨‍👩‍👧‍👦',
-        'Du bekommst bald ein tolles Geschenk! 🎁'
-    ],
-    'grün': [
-        'Etwas wächst und wird toll – vielleicht eine Pflanze oder eine Idee von dir! 🌱',
-        'Etwas Neues wird dir helfen, fröhlich und glücklich zu sein! 🍀',
-        'Deine Familie wird zusammen etwas Schönes machen, das dir gefällt! 👨‍👩‍👧‍👦',
-        'Ein Wunsch, den du schon lange hast, wird bald wahr! 💫',
-        'Du wirst dich stark und gesund fühlen, wie ein kleiner Superheld! 🦸‍♂️',
-        'Vielleicht entdeckst du ein neues Spiel oder Hobby, das dir Spaß macht! 🎮',
-        'Draußen in der Natur wirst du etwas entdecken, das dir Freude macht! 🌳',
-        'Jemand, der dich mag, wird dir helfen und dich glücklich machen! 🤗',
-        'Du hast ganz viel Glück! 🍀',
-        'Du wirst etwas Neues lernen! 📚'
-    ],
-    'orange': [
-        'Es kommt ein Abenteuer, das dir viel Spaß machen wird! 🎪',
-        'Vielleicht lernst du bald jemanden kennen, der etwas Cooles mit dir teilt! 🤝',
-        'Du wirst etwas Neues ausprobieren, das dir super gefällt! 🎯',
-        'Wenn du spontan bist, erlebst du etwas ganz Besonderes! ✨',
-        'Ein neues Spiel oder eine Idee wartet darauf, von dir entdeckt zu werden! 🎲',
-        'Ein kleiner Schritt von dir wird ein großes Abenteuer sein! 👣',
-        'Wenn du mutig bist, wirst du etwas Spannendes finden! 🗺️',
-        'Eine lustige Idee bringt dich und andere zum Lachen! 😄',
-        'Du wirst viel Spaß haben! 🎪',
-        'Deine Fantasie wird dich auf Reisen schicken! 🚀'
-    ],
-    'weiß': [
-        'Etwas wird ganz klar, und du wirst dich richtig gut fühlen! 🌅',
-        'Du wirst etwas Neues anfangen, das dir Spaß macht! 🎈',
-        'Ein Streit oder etwas Doofes wird bald vorbei sein, und alles wird gut! 🕊️',
-        'Du merkst bald etwas, das dir hilft, alles einfacher zu machen! 💡',
-        'Etwas Frisches und Schönes wird in dein Leben kommen! 🌸',
-        'Du wirst etwas Altes loslassen und dich ganz frei fühlen! 🦋',
-        'Vielleicht träumst du etwas Schönes, das dich glücklich macht! ⭐',
-        'Ein ruhiger Moment wird dir zeigen, wie toll die einfachen Dinge sind! 🌺',
-        'Du wirst einen Regenbogen sehen! 🌈',
-        'Du wirst eine zauberhafte Zeit haben! 🌟'
-    ]
-};
+        const deutungen = {
+            'rot': [
+                'Jemand hat dich sehr lieb - vielleicht gibt es bald eine große Umarmung! 🤗',
+                'Du wirst etwas finden, das dein Herz ganz fröhlich macht! ❤️',
+                'Du bekommst ganz viel Energie, um etwas Tolles zu schaffen! 💪',
+                'Ein neues Abenteuer wartet auf dich und wird richtig spannend! 🎢',
+                'Etwas, das du gern machst, wird dir ganz viel Freude bringen! 🌟',
+                'Vielleicht lernst du bald einen neuen Freund kennen! 👋',
+                'Wenn du mutig bist, wirst du etwas ganz Besonderes erleben! 🦁',
+                'Bald bekommst du eine kleine Überraschung, die dir ein Lächeln zaubert! 🎁',
+                'Du wirst heute viel lachen! 😊',
+                'Eine tolle Überraschung wartet auf dich! 🎈'
+            ],
+            'gelb': [
+                'Die Sonne scheint für dich - dein Tag wird richtig schön! ☀️',
+                'Du wirst etwas ganz Tolles basteln oder malen, das alle begeistert! 🎨',
+                'Du wirst einen neuen Freund finden, mit dem du viel Spaß haben kannst! 🤝',
+                'Bald hörst du eine lustige oder schöne Nachricht, die dich glücklich macht! 📫',
+                'Alle werden merken, wie fröhlich du bist und dich gern haben! 😊',
+                'Vielleicht findest du bald etwas, das dir einen Wunsch erfüllt! ⭐',
+                'Dein Lachen wird alle um dich herum fröhlich machen! 😄',
+                'Etwas, das du ausprobierst, wird dir richtig gut gelingen! 🌈',
+                'Ein schöner Tag mit deiner Familie wartet! 👨‍👩‍👧‍👦',
+                'Du bekommst bald ein tolles Geschenk! 🎁'
+            ],
+            'grün': [
+                'Etwas wächst und wird toll – vielleicht eine Pflanze oder eine Idee von dir! 🌱',
+                'Etwas Neues wird dir helfen, fröhlich und glücklich zu sein! 🍀',
+                'Deine Familie wird zusammen etwas Schönes machen, das dir gefällt! 👨‍👩‍👧‍👦',
+                'Ein Wunsch, den du schon lange hast, wird bald wahr! 💫',
+                'Du wirst dich stark und gesund fühlen, wie ein kleiner Superheld! 🦸‍♂️',
+                'Vielleicht entdeckst du ein neues Spiel oder Hobby, das dir Spaß macht! 🎮',
+                'Draußen in der Natur wirst du etwas entdecken, das dir Freude macht! 🌳',
+                'Jemand, der dich mag, wird dir helfen und dich glücklich machen! 🤗',
+                'Du hast ganz viel Glück! 🍀',
+                'Du wirst etwas Neues lernen! 📚'
+            ],
+            'orange': [
+                'Es kommt ein Abenteuer, das dir viel Spaß machen wird! 🎪',
+                'Vielleicht lernst du bald jemanden kennen, der etwas Cooles mit dir teilt! 🤝',
+                'Du wirst etwas Neues ausprobieren, das dir super gefällt! 🎯',
+                'Wenn du spontan bist, erlebst du etwas ganz Besonderes! ✨',
+                'Ein neues Spiel oder eine Idee wartet darauf, von dir entdeckt zu werden! 🎲',
+                'Ein kleiner Schritt von dir wird ein großes Abenteuer sein! 👣',
+                'Wenn du mutig bist, wirst du etwas Spannendes finden! 🗺️',
+                'Eine lustige Idee bringt dich und andere zum Lachen! 😄',
+                'Du wirst viel Spaß haben! 🎪',
+                'Deine Fantasie wird dich auf Reisen schicken! 🚀'
+            ],
+            'weiß': [
+                'Etwas wird ganz klar, und du wirst dich richtig gut fühlen! 🌅',
+                'Du wirst etwas Neues anfangen, das dir Spaß macht! 🎈',
+                'Ein Streit oder etwas Doofes wird bald vorbei sein, und alles wird gut! 🕊️',
+                'Du merkst bald etwas, das dir hilft, alles einfacher zu machen! 💡',
+                'Etwas Frisches und Schönes wird in dein Leben kommen! 🌸',
+                'Du wirst etwas Altes loslassen und dich ganz frei fühlen! 🦋',
+                'Vielleicht träumst du etwas Schönes, das dich glücklich macht! ⭐',
+                'Ein ruhiger Moment wird dir zeigen, wie toll die einfachen Dinge sind! 🌺',
+                'Du wirst einen Regenbogen sehen! 🌈',
+                'Du wirst eine zauberhafte Zeit haben! 🌟'
+            ]
+        };
+
         const positionen = [
             'Das passiert heute! 📅',
             'Das kommt ganz bald! 🎯',
@@ -197,7 +208,6 @@
             'Das ist dein geheimer Zauber! 🌟',
             'Das wird dich überraschen! 🎁'
         ];
-
 
         const farben = {
             'rot': {fill: '#ff9999', stroke: '#ff0000'},
@@ -229,7 +239,7 @@
                 const zufallsFarbe = verfügbareFarben[Math.floor(Math.random() * verfügbareFarben.length)];
                 
                 const wrapper = document.createElement('div');
-                wrapper.style.display = 'inline-block';
+                wrapper.className = 'gummy-wrapper';
                 
                 const svgElem = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 svgElem.setAttribute("class", "gummy");
@@ -264,6 +274,7 @@
             deutungsBox.innerHTML = `
                 <strong style="font-size: 1.2em; color: #ff69b4">Dein ${farbeAnzeige} Zauber-Gummibärchen sagt:</strong><br>
                 <div style="font-size: 1.3em; margin: 15px 0">${zufallsDeutung}</div>
+                <div class="position-text">${positionen[position]}</div>
             `;
             deutungsBox.style.display = 'block';
             deutungsBox.style.backgroundColor = `${farben[farbe].fill}22`;
