@@ -24,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* Galaxy-Sterne Effekt */
         body::before {
             content: '';
             position: fixed;
@@ -32,9 +31,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
-                             radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
-                             radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
             background-size: 550px 550px, 350px 350px, 250px 250px;
             background-position: 0 0, 40px 60px, 130px 270px;
             animation: twinkle 15s ease infinite;
@@ -98,14 +98,86 @@
             margin: 20px 0;
         }
 
-        /* [Rest der CSS-Styles bleiben gleich...] */
+        .gummy {
+            width: 80px;
+            height: 120px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            animation: bounce 2s infinite;
+        }
 
+        .gummy-wrapper {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gummy:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .deutung {
+            margin-top: 20px;
+            padding: 20px;
+            border: 3px solid #ffe4e1;
+            border-radius: 15px;
+            display: none;
+            background-color: rgba(255, 248, 231, 0.9);
+            font-size: 1.2em;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .position-text {
+            margin-top: 15px;
+            font-style: italic;
+            color: #ff69b4;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px;
+            font-size: 1.2em;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background-color: #ff1493;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .magic-sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 1s forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>✨ Magisches Gummibärchen-Orakel<span class="title-rainbow">🌈</span></h1>
-        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen!</p>
+        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen! 🎮</p>
         <p class="instruction">🌟 Klicke zuerst auf den Zauberstab, um neue Gummibärchen erscheinen zu lassen!<br>
             Dann wähle ein Gummibärchen aus und erfahre deine magische Botschaft! 🪄</p>
         <button onclick="zieheGummibärchen()">🪄 Neue Zauber-Gummibärchen</button>
@@ -132,7 +204,7 @@
                 'Du wirst etwas ganz Tolles basteln oder malen, das alle begeistert! 🎨',
                 'Du wirst einen neuen Freund finden, mit dem du viel Spaß haben kannst! 🤝',
                 'Bald hörst du eine lustige oder schöne Nachricht, die dich glücklich macht! 📫',
-                'Alle werden merken, wie fröhlich du bist und dich gern haben! 😊',
+                'Deine gute Laune wird heute alle anstecken! 😊',
                 'Vielleicht findest du bald etwas, das dir einen Wunsch erfüllt! ⭐',
                 'Dein Lachen wird alle um dich herum fröhlich machen! 😄',
                 'Etwas, das du ausprobierst, wird dir richtig gut gelingen! 🌈',
