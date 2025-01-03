@@ -3,35 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gummibärchen-Orakel</title>
+    <title>Magisches Gummibärchen-Orakel</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Comic Sans MS", cursive, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #ffd5e5;
             text-align: center;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10%),
+                            radial-gradient(circle, #fff 10%, transparent 10%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
         }
 
         .container {
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255,105,180,0.3);
+            border: 3px dashed #ff69b4;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 2.5em;
         }
 
         .instruction {
             color: #666;
-            font-style: italic;
-            margin: 10px 0;
+            font-size: 1.2em;
+            margin: 15px 0;
+            background-color: #fff8e7;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ffe4e1;
         }
 
         .gummy-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             margin: 20px 0;
         }
 
@@ -41,116 +56,134 @@
             border-radius: 30px 30px 25px 25px;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, filter 0.3s;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .gummy:hover {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(10deg);
+            filter: brightness(1.2);
         }
 
-        /* Weiße Gummibärchen bekommen eine spezielle Klasse */
         .gummy-white {
             border: 2px solid #ccc !important;
         }
 
         .deutung {
             margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 20px;
+            border: 3px solid #ffe4e1;
+            border-radius: 15px;
             display: none;
+            background-color: #fff8e7;
+            font-size: 1.2em;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .position-text {
-            margin-top: 10px;
+            margin-top: 15px;
             font-style: italic;
+            color: #ff69b4;
         }
 
         button {
             background-color: #ff69b4;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 25px;
             cursor: pointer;
-            margin: 10px;
+            margin: 15px;
+            font-size: 1.2em;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         button:hover {
             background-color: #ff1493;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .magic-sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 1s forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🐻 Gummibärchen-Orakel 🔮</h1>
-        <p>Wähle ein Gummibärchen und erfahre deine Zukunft!</p>
-        <p class="instruction">⭐ Ziehe erst neue Gummibärchen und klicke dann auf eines, um deine Deutung zu erhalten ⭐</p>
-        <button onclick="zieheGummibärchen()">Neue Gummibärchen ziehen</button>
+        <h1>✨ Magisches Gummibärchen-Orakel 🌈</h1>
+        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen! 🎮</p>
+        <p class="instruction">🌟 Klicke zuerst auf den Zauberstab, um neue Gummibärchen erscheinen zu lassen!<br>
+            Dann wähle ein Gummibärchen aus und erfahre deine magische Botschaft! 🪄</p>
+        <button onclick="zieheGummibärchen()">🪄 Neue Zauber-Gummibärchen</button>
         <div class="gummy-container" id="gummyBox"></div>
         <div class="deutung" id="deutungsBox"></div>
     </div>
 
     <script>
-      const deutungen = {
-  'rot': [
-    'Jemand hat dich sehr lieb - vielleicht gibt es bald eine große Umarmung!',
-    'Du wirst etwas finden, das dein Herz ganz fröhlich macht.',
-    'Du bekommst ganz viel Energie, um etwas Tolles zu schaffen.',
-    'Ein neues Abenteuer wartet auf dich und wird richtig spannend!',
-    'Etwas, das du gern machst, wird dir ganz viel Freude bringen.',
-    'Vielleicht lernst du bald einen neuen Freund kennen.',
-    'Wenn du mutig bist, wirst du etwas ganz Besonderes erleben.',
-    'Bald bekommst du eine kleine Überraschung, die dir ein Lächeln zaubert.'
-  ],
-  'gelb': [
-    'Die Sonne scheint für dich - dein Tag wird richtig schön!',
-    'Du wirst etwas ganz Tolles basteln oder malen, das alle begeistert.',
-    'Du wirst einen neuen Freund finden, mit dem du viel Spaß haben kannst.',
-    'Bald hörst du eine lustige oder schöne Nachricht, die dich glücklich macht.',
-    'Alle werden merken, wie fröhlich du bist und dich gern haben.',
-    'Vielleicht findest du bald etwas, das dir einen Wunsch erfüllt.',
-    'Dein Lachen wird alle um dich herum fröhlich machen.',
-    'Etwas, das du ausprobierst, wird dir richtig gut gelingen!'
-  ],
-  'grün': [
-    'Etwas wächst und wird toll – vielleicht eine Pflanze oder eine Idee von dir!',
-    'Etwas Neues wird dir helfen, fröhlich und glücklich zu sein.',
-    'Deine Familie wird zusammen etwas Schönes machen, das dir gefällt.',
-    'Ein Wunsch, den du schon lange hast, wird bald wahr.',
-    'Du wirst dich stark und gesund fühlen, wie ein kleiner Superheld.',
-    'Vielleicht entdeckst du ein neues Spiel oder Hobby, das dir Spaß macht.',
-    'Draußen in der Natur wirst du etwas entdecken, das dir Freude macht.',
-    'Jemand, der dich mag, wird dir helfen und dich glücklich machen.'
-  ],
-  'orange': [
-    'Es kommt ein Abenteuer, das dir viel Spaß machen wird!',
-    'Vielleicht lernst du bald jemanden kennen, der etwas Cooles mit dir teilt.',
-    'Du wirst etwas Neues ausprobieren, das dir super gefällt.',
-    'Wenn du spontan bist, erlebst du etwas ganz Besonderes.',
-    'Ein neues Spiel oder eine Idee wartet darauf, von dir entdeckt zu werden.',
-    'Ein kleiner Schritt von dir wird ein großes Abenteuer sein.',
-    'Wenn du mutig bist, wirst du etwas Spannendes finden.',
-    'Eine lustige Idee bringt dich und andere zum Lachen.'
-  ],
-  'weiß': [
-    'Etwas wird ganz klar, und du wirst dich richtig gut fühlen.',
-    'Du wirst etwas Neues anfangen, das dir Spaß macht.',
-    'Ein Streit oder etwas Doofes wird bald vorbei sein, und alles wird gut.',
-    'Du merkst bald etwas, das dir hilft, alles einfacher zu machen.',
-    'Etwas Frisches und Schönes wird in dein Leben kommen.',
-    'Du wirst etwas Altes loslassen und dich ganz frei fühlen.',
-    'Vielleicht träumst du etwas Schönes, das dich glücklich macht.',
-    'Ein ruhiger Moment wird dir zeigen, wie toll die einfachen Dinge sind.'
-  ]
-};
+        const deutungen = {
+            'rot': [
+                'Eine tolle Überraschung wartet auf dich! 🎁',
+                'Bald triffst du einen neuen Freund! 👋',
+                'Du wirst etwas Aufregendes erleben! 🎈',
+                'Dein Lieblingswunsch geht in Erfüllung! ⭐',
+                'Du wirst heute viel lachen! 😊'
+            ],
+            'gelb': [
+                'Die Sonne scheint nur für dich! ☀️',
+                'Du wirst eine lustige Entdeckung machen! 🔍',
+                'Ein schöner Tag mit deiner Familie wartet! 👨‍👩‍👧‍👦',
+                'Du bekommst bald ein tolles Geschenk! 🎁',
+                'Dein Lächeln wird andere glücklich machen! 😊'
+            ],
+            'grün': [
+                'Du hast ganz viel Glück! 🍀',
+                'Ein schönes Abenteuer wartet auf dich! 🌈',
+                'Du wirst etwas Tolles basteln! 🎨',
+                'Deine Freunde werden dich überraschen! 🎉',
+                'Du wirst etwas Neues lernen! 📚'
+            ],
+            'orange': [
+                'Du wirst viel Spaß haben! 🎪',
+                'Ein spannendes Spiel wartet auf dich! 🎮',
+                'Du wirst eine tolle Geschichte erleben! 📖',
+                'Deine Fantasie wird dich auf Reisen schicken! 🚀',
+                'Du wirst anderen eine Freude machen! 🎨'
+            ],
+            'weiß': [
+                'Du wirst einen Regenbogen sehen! 🌈',
+                'Ein magischer Moment kommt auf dich zu! ✨',
+                'Du wirst eine zauberhafte Zeit haben! 🌟',
+                'Deine Wünsche werden wahr! 💫',
+                'Du wirst etwas Besonderes entdecken! 🔮'
+            ]
+        };
 
         const positionen = [
-            'Diese Position symbolisiert den gegenwärtigen Moment und unmittelbare Ereignisse.',
-            'An dieser Stelle zeigt sich, was in naher Zukunft auf dich zukommt.',
-            'Die mittlere Position offenbart den Kern deiner aktuellen Situation.',
-            'Hier findest du Hinweise auf verborgene Möglichkeiten.',
-            'Die letzte Position gibt Aufschluss über langfristige Entwicklungen.'
+            'Das passiert heute! 📅',
+            'Das kommt ganz bald! 🎯',
+            'Das ist dein Glücksmoment! ⭐',
+            'Das ist dein geheimer Zauber! 🌟',
+            'Das wird dich überraschen! 🎁'
         ];
 
         const farben = {
@@ -160,6 +193,16 @@
             'orange': '#ffa500',
             'weiß': '#ffffff'
         };
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'magic-sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.innerHTML = '✨';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        }
 
         function zieheGummibärchen() {
             const container = document.getElementById('gummyBox');
@@ -177,7 +220,12 @@
                 }
                 gummy.style.backgroundColor = farben[zufallsFarbe];
                 gummy.style.boxShadow = `0 0 10px ${farben[zufallsFarbe]}88`;
-                gummy.onclick = () => zeigeDeutung(zufallsFarbe, i);
+                gummy.style.animationDelay = `${i * 0.2}s`;
+                
+                gummy.onclick = (e) => {
+                    createSparkle(e.pageX, e.pageY);
+                    zeigeDeutung(zufallsFarbe, i);
+                };
                 
                 container.appendChild(gummy);
             }
@@ -189,8 +237,8 @@
             const zufallsDeutung = möglicheDeutungen[Math.floor(Math.random() * möglicheDeutungen.length)];
             
             deutungsBox.innerHTML = `
-                <strong>${farbe.charAt(0).toUpperCase() + farbe.slice(1)}es Gummibärchen sagt:</strong><br>
-                ${zufallsDeutung}<br>
+                <strong style="font-size: 1.2em; color: #ff69b4">Dein ${farbe}es Zauber-Gummibärchen sagt:</strong><br>
+                <div style="font-size: 1.3em; margin: 15px 0">${zufallsDeutung}</div>
                 <div class="position-text">${positionen[position]}</div>
             `;
             deutungsBox.style.display = 'block';
