@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gummibärchen-Orakel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .instruction {
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .gummy-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .gummy {
+            width: 60px;
+            height: 80px;
+            border-radius: 30px 30px 25px 25px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gummy:hover {
+            transform: scale(1.1);
+        }
+
+        /* Weiße Gummibärchen bekommen eine spezielle Klasse */
+        .gummy-white {
+            border: 2px solid #ccc !important;
+        }
+
+        .deutung {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .position-text {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐻 Gummibärchen-Orakel 🔮</h1>
+        <p>Wähle ein Gummibärchen und erfahre deine Zukunft!</p>
+        <p class="instruction">⭐ Ziehe erst neue Gummibärchen und klicke dann auf eines, um deine Deutung zu erhalten ⭐</p>
+        <button onclick="zieheGummibärchen()">Neue Gummibärchen ziehen</button>
+        <div class="gummy-container" id="gummyBox"></div>
+        <div class="deutung" id="deutungsBox"></div>
+    </div>
+
+    <script>
+      const deutungen = {
+  'rot': [
+    'Liebe und Leidenschaft erwarten dich. Eine neue Romanze könnte sich anbahnen.',
+    'Eine wichtige Entscheidung steht bevor, die dein Herz berühren wird.',
+    'Neue Energie kommt in dein Leben - nutze sie für deine Ziele.',
+    'Eine intensive Begegnung wird dein Leben verändern.',
+    'Deine Leidenschaft für ein Projekt wird sich auszahlen.',
+    'Jemand aus deiner Vergangenheit wird wieder in dein Leben treten.',
+    'Dein Mut, deine Gefühle zu zeigen, wird belohnt.',
+    'Ein unerwartetes Geschenk wird dir viel bedeuten.'
+  ],
+  'gelb': [
+    'Sonnige Zeiten stehen dir bevor. Optimismus ist dein bester Begleiter.',
+    'Ein kreatives Projekt wird erfolgreich sein und dir Anerkennung bringen.',
+    'Neue Freundschaften werden geschlossen, die dich inspirieren.',
+    'Eine unerwartete Nachricht bringt Freude in dein Leben.',
+    'Deine positive Ausstrahlung wird andere Menschen anziehen.',
+    'Ein glücklicher Zufall bringt dir eine neue Möglichkeit.',
+    'Deine Lebensfreude wird andere motivieren und anstecken.',
+    'Ein unerwarteter Erfolg wird dir neue Türen öffnen.'
+  ],
+  'grün': [
+    'Wachstum und Erfolg sind in Sicht. Finanzielle Verbesserungen bahnen sich an.',
+    'Eine Veränderung bringt Glück und neue Möglichkeiten.',
+    'Harmonie kehrt in dein Leben ein, besonders in Familienangelegenheiten.',
+    'Ein lang gehegter Wunsch geht in Erfüllung.',
+    'Gesundheit und Wohlbefinden stehen im Vordergrund.',
+    'Ein neues Hobby oder eine Leidenschaft wird dein Leben bereichern.',
+    'Die Natur wird dir Ruhe und Inspiration schenken.',
+    'Eine starke Verbindung zu einer Person wird dir Halt geben.'
+  ],
+  'orange': [
+    'Abenteuer und Spannung erwarten dich. Eine Reise steht bevor.',
+    'Eine überraschende Begegnung führt zu aufregenden Möglichkeiten.',
+    'Neue Chancen tun sich auf - sei mutig und ergreife sie.',
+    'Deine Spontaneität wird zu einem glücklichen Zufall führen.',
+    'Ein spannendes Projekt wartet darauf, von dir entdeckt zu werden.',
+    'Ein kleiner Schritt wird zu einem großen Abenteuer führen.',
+    'Dein Mut wird belohnt, wenn du etwas Unbekanntes ausprobierst.',
+    'Eine kreative Idee wird dich auf eine neue Reise führen.'
+  ],
+  'weiß': [
+    'Klarheit in einer wichtigen Sache wird dich erleichtern.',
+    'Ein Neuanfang steht bevor - die Zeichen stehen auf Veränderung.',
+    'Innerer Frieden kehrt ein, alte Konflikte lösen sich.',
+    'Eine wichtige Erkenntnis wird dein Leben vereinfachen.',
+    'Reinigung und Erneuerung prägen die kommende Zeit.',
+    'Du wirst von einer Last befreit und fühlst dich leichter.',
+    'Eine spirituelle Erfahrung wird dir neue Einsichten bringen.',
+    'Ein einfacher Moment wird dir tiefe Zufriedenheit schenken.'
+  ]
+};
+
+        const positionen = [
+            'Diese Position symbolisiert den gegenwärtigen Moment und unmittelbare Ereignisse.',
+            'An dieser Stelle zeigt sich, was in naher Zukunft auf dich zukommt.',
+            'Die mittlere Position offenbart den Kern deiner aktuellen Situation.',
+            'Hier findest du Hinweise auf verborgene Möglichkeiten.',
+            'Die letzte Position gibt Aufschluss über langfristige Entwicklungen.'
+        ];
+
+        const farben = {
+            'rot': '#ff0000',
+            'gelb': '#ffdd00',
+            'grün': '#00ff00',
+            'orange': '#ffa500',
+            'weiß': '#ffffff'
+        };
+
+        function zieheGummibärchen() {
+            const container = document.getElementById('gummyBox');
+            container.innerHTML = '';
+            document.getElementById('deutungsBox').style.display = 'none';
+
+            for (let i = 0; i < 5; i++) {
+                const verfügbareFarben = Object.keys(farben);
+                const zufallsFarbe = verfügbareFarben[Math.floor(Math.random() * verfügbareFarben.length)];
+                
+                const gummy = document.createElement('div');
+                gummy.className = 'gummy';
+                if (zufallsFarbe === 'weiß') {
+                    gummy.classList.add('gummy-white');
+                }
+                gummy.style.backgroundColor = farben[zufallsFarbe];
+                gummy.style.boxShadow = `0 0 10px ${farben[zufallsFarbe]}88`;
+                gummy.onclick = () => zeigeDeutung(zufallsFarbe, i);
+                
+                container.appendChild(gummy);
+            }
+        }
+
+        function zeigeDeutung(farbe, position) {
+            const deutungsBox = document.getElementById('deutungsBox');
+            const möglicheDeutungen = deutungen[farbe];
+            const zufallsDeutung = möglicheDeutungen[Math.floor(Math.random() * möglicheDeutungen.length)];
+            
+            deutungsBox.innerHTML = `
+                <strong>${farbe.charAt(0).toUpperCase() + farbe.slice(1)}es Gummibärchen sagt:</strong><br>
+                ${zufallsDeutung}<br>
+                <div class="position-text">${positionen[position]}</div>
+            `;
+            deutungsBox.style.display = 'block';
+            deutungsBox.style.backgroundColor = `${farben[farbe]}22`;
+        }
+
+        // Initiale Generierung
+        zieheGummibärchen();
+    </script>
+</body>
+</html>
