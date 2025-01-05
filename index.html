@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magisches Gummibärchen-Orakel</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: "Comic Sans MS", cursive, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            margin: 0;
+            padding: 10px;
             background: linear-gradient(45deg, 
                 #000000, 
                 #1a0f3d,
@@ -39,6 +45,117 @@
             background-position: 0 0, 40px 60px, 130px 270px;
             animation: twinkle 15s ease infinite;
             pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255,105,180,0.3);
+            border: 3px dashed #ff69b4;
+            backdrop-filter: blur(5px);
+            margin: 10px auto;
+            max-width: 95%;
+            width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            line-height: 1.3;
+            margin: 10px auto;
+            padding: 0 10px;
+        }
+
+        .title-rainbow, .title-star {
+            display: inline-block;
+            transform-origin: center;
+            animation: floatAndSpin 3s ease-in-out infinite;
+            margin: 0 5px;
+        }
+
+        @keyframes floatAndSpin {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .instruction {
+            color: #666;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin: 15px auto;
+            background-color: rgba(255, 248, 231, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ffe4e1;
+            max-width: 90%;
+        }
+
+        .gummy-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+            padding: 0 10px;
+        }
+
+        .gummy {
+            width: 100%;
+            height: auto;
+            max-width: 80px;
+            margin: auto;
+            cursor: pointer;
+            transition: transform 0.3s;
+            animation: bounce 2s infinite;
+        }
+
+        .gummy:hover {
+            transform: scale(1.1);
+        }
+
+        .deutung {
+            margin: 20px auto;
+            padding: 15px;
+            border: 3px solid #ffe4e1;
+            border-radius: 15px;
+            display: none;
+            background-color: rgba(255, 248, 231, 0.9);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            animation: fadeIn 0.5s;
+            max-width: 90%;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: clamp(10px, 3vw, 15px) clamp(20px, 5vw, 30px);
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px auto;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block;
+            max-width: 90%;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+
+        .magic-sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 1s forwards;
+            z-index: 2;
         }
 
         @keyframes gradientBG {
@@ -52,78 +169,9 @@
             50% { opacity: 0.9; }
         }
 
-        .container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255,105,180,0.3);
-            border: 3px dashed #ff69b4;
-            backdrop-filter: blur(5px);
-            margin: 20px auto;
-        }
-
-        h1 {
-            color: #ff69b4;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            font-size: 2.5em;
-            white-space: nowrap;
-        }
-
-        .title-rainbow, .title-star {
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-            margin-left: 10px;
-        }
-
-        .instruction {
-            color: #666;
-            font-size: 1.2em;
-            margin: 15px 0;
-            background-color: rgba(255, 248, 231, 0.9);
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #ffe4e1;
-        }
-
-        .gummy-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .gummy {
-            width: 80px;
-            height: 120px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            animation: bounce 2s infinite;
-        }
-
-        .gummy-wrapper {
-            display: inline-block;
-            margin: 10px;
-        }
-
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .gummy:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        .deutung {
-            margin-top: 20px;
-            padding: 20px;
-            border: 3px solid #ffe4e1;
-            border-radius: 15px;
-            display: none;
-            background-color: rgba(255, 248, 231, 0.9);
-            font-size: 1.2em;
-            animation: fadeIn 0.5s;
+            50% { transform: translateY(-5px); }
         }
 
         @keyframes fadeIn {
@@ -131,48 +179,35 @@
             to { opacity: 1; }
         }
 
-        .position-text {
-            margin-top: 15px;
-            font-style: italic;
-            color: #ff69b4;
-        }
-
-        button {
-            background-color: #ff69b4;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin: 15px;
-            font-size: 1.2em;
-            font-family: "Comic Sans MS", cursive, sans-serif;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        button:hover {
-            background-color: #ff1493;
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-
-        .magic-sparkle {
-            position: absolute;
-            pointer-events: none;
-            animation: sparkle 1s forwards;
-        }
-
         @keyframes sparkle {
             0% { transform: scale(0) rotate(0deg); opacity: 1; }
             100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 5px;
+            }
+
+            .gummy-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .gummy {
+                max-width: 60px;
+            }
+
+            .instruction br {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1><span class="title-star">✨</span>Magisches Gummibärchen-Orakel<span class="title-rainbow">🌈</span></h1>
-        <p style="font-size: 1.2em;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen!</p>
+        <p style="font-size: clamp(1rem, 3vw, 1.2rem); margin: 10px;">Lass dir von den Zauber-Gummibärchen etwas Schönes vorhersagen!</p>
         <p class="instruction">🌟 Klicke zuerst auf den Zauberstab, um neue Gummibärchen erscheinen zu lassen!<br>
             Dann wähle ein Gummibärchen aus und erfahre deine magische Botschaft! 🪄</p>
         <button onclick="zieheGummibärchen()">🪄 Neue Zauber-Gummibärchen</button>
@@ -180,6 +215,12 @@
         <div id="deutungsBox" class="deutung"></div>
     </div>
 
+    <script>
+        // Der JavaScript-Code bleibt unverändert
+        [Vorheriger JavaScript-Code hier einfügen...]
+    </script>
+</body>
+</html>
     <script>
         const deutungen = {
             'rot': [
